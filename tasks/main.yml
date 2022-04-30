@@ -1,0 +1,17 @@
+---
+- name: Create folders
+  ansible.builtin.file:
+    attributes: "{{ item.attributes | default(omit) }}"
+    group: "{{ item.group | default(omit) }}"
+    mode: "{{ item.mode | default(omit) }}"
+    owner: "{{ item.owner | default(omit) }}"
+    path: "{{ item.path | default(omit) }}"
+    recurse: "{{ item.recurse | default(omit) }}"
+    state: "directory"
+  loop: "{{ organicveggie_folders_create }}"
+
+- name: Remove folders
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: "absent"
+  loop: "{{ organicveggie_folders_remove }}"

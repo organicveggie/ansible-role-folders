@@ -1,0 +1,28 @@
+---
+dependency:
+  name: galaxy
+  options:
+    # Temporary kludge due to https://github.com/ansible-community/molecule/issues/2755.
+    requirements-file: molecule/resources/requirements.yml
+
+driver:
+  name: docker
+
+platforms:
+  - name: "organicveggie-folders-${MOLECULE_DISTRO:-ubuntu2004}"
+    image: "geerlingguy/docker-${MOLECULE_DISTRO:-ubuntu2004}-ansible:latest"
+    command: ${MOLECULE_DOCKER_COMMAND:-""}
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    privileged: true
+    pre_build_image: true
+provisioner:
+  name: ansible
+
+verifier:
+  name: ansible
+
+lint: |
+  set -e
+  yamllint .
+  ansible-lint .

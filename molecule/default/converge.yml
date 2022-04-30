@@ -1,0 +1,23 @@
+---
+- name: Converge
+  hosts: all
+
+  vars:
+    organicveggie_folders_create:
+      - path: "/tmp/folder1"
+        recurse: "true"
+      - path: "/tmp/folder2"
+        recurse: "false"
+        mode: "777"
+        owner: "daemon"
+        group: "nogroup"
+      - path: "/tmp/folder3/child1"
+        recurse: "true"
+      - path: "/tmp/folder-to-remove"
+    organicveggie_folders_remove:
+      - "/tmp/folder-to-remove"
+  
+  tasks:
+    - name: "Include organicveggie.folders"
+      include_role:
+        name: "organicveggie.folders"

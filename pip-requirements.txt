@@ -1,0 +1,5 @@
+molecule == 3.6.0
+
+ansible-core
+ansible-lint
+molecule[docker]

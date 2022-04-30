@@ -1,0 +1,54 @@
+---
+# This is an example playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Get stats of /tmp/folder1
+      ansible.builtin.stat:
+        path: /tmp/folder1
+      register: f1
+    - name: Check /tmp/folder1 stats
+      assert:
+        that:
+          - f1.stat.exists
+          - f1.stat.isdir
+          - f1.stat.gr_name == 'root'
+          - f1.stat.mode == '0755'
+          - f1.stat.pw_name == 'root'
+
+    - name: Get stats of /tmp/folder2
+      ansible.builtin.stat:
+        path: /tmp/folder2
+      register: f1
+    - name: Check /tmp/folder2 stats
+      assert:
+        that:
+          - f1.stat.exists
+          - f1.stat.isdir
+          - f1.stat.gr_name == 'nogroup'
+          - f1.stat.mode == '0777'
+          - f1.stat.pw_name == 'daemon'
+
+    - name: Get stats of /tmp/folder3/child1
+      ansible.builtin.stat:
+        path: /tmp/folder3/child1
+      register: f1
+    - name: Check /tmp/folder3/child1 stats
+      assert:
+        that:
+          - f1.stat.exists
+          - f1.stat.isdir
+          - f1.stat.gr_name == 'root'
+          - f1.stat.mode == '0755'
+          - f1.stat.pw_name == 'root'
+
+    - name: Get stats of /tmp/folder-to-remove
+      ansible.builtin.stat:
+        path: /tmp/folder-to-remove
+      register: f1
+    - name: Check /tmp/folder-to-remove stats
+      assert:
+        that:
+          - not f1.stat.exists

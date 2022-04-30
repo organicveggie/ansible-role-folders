@@ -1,0 +1,4 @@
+---
+# See https://docs.ansible.com/ansible/latest/collections/ansible/builtin/file_module.html
+organicveggie_folders_create: []
+organicveggie_folders_remove: []
